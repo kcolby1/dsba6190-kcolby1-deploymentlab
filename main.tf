@@ -72,3 +72,4 @@ resource "azurerm_machine_learning_workspace" "example" {
  type = "SystemAssigned"
  }
 }
+
