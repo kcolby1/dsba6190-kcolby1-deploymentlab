@@ -116,3 +116,47 @@ resource "azurerm_cosmosdb_account" "db" {
     failover_priority = 0
   }
 }
+
+// Web App
+
+resource "azurerm_app_service_plan" "webapp_plan" {
+  name                = "webapp-plan-kcolby1"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  sku {
+    tier = "Free"
+    size = "F1"
+  }
+}
+
+resource "azurerm_app_service" "webapp" {
+  name                = "kcolby1-webapp-new4"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  app_service_plan_id = azurerm_app_service_plan.webapp_plan.id
+}
+
+output "webapp_url" {
+  value = azurerm_app_service.webapp.default_site_hostname
+}
+
+
+resource "azurerm_app_service_plan" "functionapp" {
+  name                = "kcolby1-functions-service-plan3"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  sku {
+    tier = "Standard"
+    size = "S1"
+  }
+}
+
+resource "azurerm_function_app" "functionapp" {
+  name                       = "kcolby1-functions"
+  location                   = azurerm_resource_group.rg.location
+  resource_group_name        = azurerm_resource_group.rg.name
+  app_service_plan_id        = azurerm_app_service_plan.functionapp.id
+  storage_account_name       = azurerm_storage_account.storage.name
+  storage_account_access_key = azurerm_storage_account.storage.primary_access_key
+}
