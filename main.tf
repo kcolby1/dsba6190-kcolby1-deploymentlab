@@ -24,7 +24,7 @@ resource "random_integer" "deployment_id_suffix" {
 // Resource Group
 
 resource "azurerm_resource_group" "rg" {
-  name     = "${var.class_name}-kcolby1-${var.environment}-02-rg"
+  name     = "${var.class_name}-kcolby1-${var.environment}-03-rg"
   location = var.location
 
   tags = local.tags
@@ -53,7 +53,7 @@ resource "azurerm_application_insights" "example" {
 }
 
 resource "azurerm_key_vault" "example" {
-  name                = "kc-workspacevault-new1"
+  name                = "kc03-workspacevault-new1"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   tenant_id           = data.azurerm_subscription.current.tenant_id
@@ -120,7 +120,7 @@ resource "azurerm_cosmosdb_account" "db" {
 // Web App
 
 resource "azurerm_app_service_plan" "webapp_plan" {
-  name                = "webapp-plan-kcolby1"
+  name                = "webapp-plan-kcolby03"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   sku {
@@ -130,7 +130,7 @@ resource "azurerm_app_service_plan" "webapp_plan" {
 }
 
 resource "azurerm_app_service" "webapp" {
-  name                = "kcolby1-webapp-new4"
+  name                = "kcolby03-webapp-new4"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   app_service_plan_id = azurerm_app_service_plan.webapp_plan.id
@@ -142,7 +142,7 @@ output "webapp_url" {
 
 
 resource "azurerm_app_service_plan" "functionapp" {
-  name                = "kcolby1-functions-service-plan3"
+  name                = "kcolby03-functions-service-plan3"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -153,7 +153,7 @@ resource "azurerm_app_service_plan" "functionapp" {
 }
 
 resource "azurerm_function_app" "functionapp" {
-  name                       = "kcolby1-functions"
+  name                       = "kcolby03-functions"
   location                   = azurerm_resource_group.rg.location
   resource_group_name        = azurerm_resource_group.rg.name
   app_service_plan_id        = azurerm_app_service_plan.functionapp.id
